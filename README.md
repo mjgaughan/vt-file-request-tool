@@ -1,8 +1,9 @@
-## [insert project title here]
-### Middlebury College, Computer Science CSCI 701 (Fall 2020)
+## An Algorithmic Assist for Transparency: Locating Relevant State Agencies for Vermont File Requests
+### Middlebury College, Computer Science CSCI 701 (Fall 2021)
 
 ### about
-TODO: a few sentences describing your project
+
+Our project provides a web application that—given an appropriate natural language query from the user—will identify the correct State of Vermont department for the user to request public information from. In order to implement this, we will use a combination of natural language processing (NLP) and a search engine working on an index of all State of Vermont agencies and their file request protocols.
 
 view our website [here]()
 
