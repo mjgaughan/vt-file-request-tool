@@ -18,18 +18,11 @@ import java.nio.charset.StandardCharsets;
 public class SempreQueryController {
 	
 	@GetMapping("/sempre")
-	public SempreQuery query(@RequestParam(value="query", defaultValue = "") String query) throws IOException {
+	public String query(@RequestParam(value="q", defaultValue = "") String query) throws IOException {
 		String url = "http://localhost:8400/sempre?q=";
-		String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8.toString());
-		Document doc = Jsoup.connect(url + encodedQuery).get();
-		Elements content = doc.getElementsByClass("answer");
-		String response = null;
-		for (Element answer : content) {
-			response = answer.text();
-		}
-		SempreQuery result = new SempreQuery(query);
-		result.setResponse(response);
-		return result;
+		Document doc = Jsoup.connect(url + query).get();
+		Element pre = doc.select("pre").first();
+		return pre.text();
 	}
 
 }
