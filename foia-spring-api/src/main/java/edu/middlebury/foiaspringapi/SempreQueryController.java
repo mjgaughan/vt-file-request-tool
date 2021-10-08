@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+@RestController
 public class SempreQueryController {
 	
 	@GetMapping("/sempre")
