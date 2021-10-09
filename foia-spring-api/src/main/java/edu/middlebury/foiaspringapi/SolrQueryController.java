@@ -12,17 +12,20 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.lang.ProcessBuilder;
+import java.lang.Process;
 
 @RestController
 @RequestMapping("/api")
-public class SempreQueryController {
+public class SolrQueryController {
 
-	@GetMapping("/sempre")
-	public String query(@RequestParam(value = "q", defaultValue = "") String query) throws IOException {
-		String url = "http://localhost:8400/sempre?q=";
-		Document doc = Jsoup.connect(url + query).get();
-		Element pre = doc.select("pre").first();
-		return pre.text();
-	}
+    @GetMapping("/solr")
+    public String solr(@RequestParam(value = "q", defaultValue = "") String query) throws IOException {
+        System.out.print("hi");
+        String command = "curl 'http://localhost:8983/solr/vtstatefiles/select?q=*:*'";
+        Process process = Runtime.getRuntime().exec(command);
+        System.out.println(process.getInputStream());
+        return (command);
+    }
 
 }
