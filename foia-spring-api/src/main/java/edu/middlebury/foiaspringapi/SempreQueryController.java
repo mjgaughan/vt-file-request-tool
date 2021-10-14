@@ -16,9 +16,9 @@ import java.nio.charset.StandardCharsets;
 @RestController
 @RequestMapping("/api")
 public class SempreQueryController {
-	
+
 	@GetMapping("/sempre")
-	public String query(@RequestParam(value="q", defaultValue = "") String query) throws IOException {
+	public String query(@RequestParam(value = "q", defaultValue = "") String query) throws IOException {
 		String url = "http://localhost:8400/sempre?q=";
 		Document doc = Jsoup.connect(url + query).get();
 		Element pre = doc.select("pre").first();
