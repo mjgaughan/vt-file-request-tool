@@ -26,14 +26,8 @@ public class SolrQueryController {
 
     @GetMapping("/solr")
     public String solr(@RequestParam(value = "q", defaultValue = "*:*") String query) throws IOException {
-        /*
-         * DEBUG: set up solr using A dataset need to name the index 'vtstatefiles' run
-         * on port 8983 on request, ERROR 64104: null pointer exception
-         */
-
-        // String command = "curl 'http://localhost:8983/solr/vtstatefiles/select?q='";
-        String url = "http://localhost:8983/solr/vtstatefiles/select?q=*:*";
-        Document doc = Jsoup.connect(url).ignoreContentType(true).get();
+        String url = "http://localhost:8983/solr/vtstatefiles/select?q=";
+        Document doc = Jsoup.connect(url + query).ignoreContentType(true).get();
         Element body = doc.select("body").first();
         return body.text();
 
