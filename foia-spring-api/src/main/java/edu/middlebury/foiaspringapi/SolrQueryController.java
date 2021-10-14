@@ -34,8 +34,8 @@ public class SolrQueryController {
         // String command = "curl 'http://localhost:8983/solr/vtstatefiles/select?q='";
         String url = "http://localhost:8983/solr/vtstatefiles/select?q=*:*";
         Document doc = Jsoup.connect(url).ignoreContentType(true).get();
-        Element pre = doc.select("pre").first();
-        return pre.text();
+        Element body = doc.select("body").first();
+        return body.text();
 
     }
 
