@@ -10,26 +10,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.micrometer.core.ipc.http.HttpSender.Response;
-
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.lang.ProcessBuilder;
-import java.lang.Process;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 @RestController
 @RequestMapping("/api")
 public class SolrQueryController {
 
     @GetMapping("/solr")
-    public String solr(@RequestParam(value = "q", defaultValue = "*:*") String query) throws IOException {
-        String url = "http://localhost:8983/solr/vtstatefiles/select?q=";
-        Document doc = Jsoup.connect(url + query).ignoreContentType(true).get();
-        Element body = doc.select("body").first();
-        return body.text();
+    public StringBuffer solr(@RequestParam(value = "q", defaultValue = "*:*") String query) throws IOException {
+        String url0 = "http://localhost:8983/solr/vtstatefiles/select?q=";
+        // Document doc = Jsoup.connect(url + query).ignoreContentType(true).get();
+        // Element body = doc.select("body").first();
+
+        URL url = new URL((url0 + query));
+        HttpURLConnection http = (HttpURLConnection) url.openConnection();
+        http.setRequestMethod("GET");
+        http.setRequestProperty("Accept", "application/json");
+        // System.out.println(http.getResponseCode() + " " + http.getResponseMessage());
+        BufferedReader reader = new BufferedReader(new InputStreamReader(http.getInputStream()));
+        String inputLine;
+        StringBuffer content = new StringBuffer();
+        while ((inputLine = reader.readLine()) != null) {
+            if (inputLine.contains("Contact")) {
+                content.append(inputLine);
+            } else if (inputLine.contains("Name")) {
+                content.append(inputLine);
+            }
+            // content.append(inputLine);
+        }
+        System.out.println(content);
+
+        reader.close();
+        http.disconnect();
+
+        return content;
 
     }
 
