@@ -19,6 +19,8 @@ import java.lang.ProcessBuilder;
 import java.lang.Process;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import org.apache.coyote.Request;
+import org.apache.http.HttpResponse;
 
 @RestController
 @RequestMapping("/api")
@@ -29,6 +31,30 @@ public class SolrQueryController {
         String url = "http://localhost:8983/solr/vtstatefiles/select?q=";
         Document doc = Jsoup.connect(url + query).ignoreContentType(true).get();
         Element body = doc.select("body").first();
+
+        String command = "curl -X GET http://localhost:8983/solr/vtstatefiles/select?q=" + query;
+        // Process process = Runtime.getRuntime().exec(command);
+        // System.out.println(process.getInputStream());
+        // process.destroy();
+        // ProcessBuilder processBuilder = new ProcessBuilder(command.split(" "));
+        // processBuilder.directory(new File("/home/"));
+        // Process process = processBuilder.start();
+
+        // URL url0 = new URL((url + query));
+        // HttpURLConnection http = (HttpURLConnection) url0.openConnection();
+        // http.setRequestProperty("Accept", "application/json");
+        // System.out.println(http.getResponseCode() + " " + http.getResponseMessage());
+        // System.out.println(http.getE());
+        // http.disconnect();
+
+        Request request = Request.get("http://localhost:8983/solr/vtstatefiles/select?q=a");
+        HttpResponse httpResponse = request.execute().returnResponse();
+        System.out.println(httpResponse.getStatusLine());
+        if (httpResponse.getEntity() != null) {
+            String html = EntityUtils.toString(httpResponse.getEntity());
+            System.out.println(html);
+        }
+
         return body.text();
 
     }
