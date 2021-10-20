@@ -40,7 +40,12 @@ public class SempreQueryController {
 			if (isTokens) {
 				if (word.contains("]")) {
 					isTokens = false;
-					// word = word[];
+					word = word.substring(0, word.length() - 2);
+				} else if (word.contains(",")) {
+					word = word.substring(0, word.length() - 1);
+				}
+				if (word.contains("[")) {
+					word = word.substring(1, word.length());
 				}
 				lemmatizedTokens.add(word);
 			} else if (isTags) {
@@ -63,9 +68,6 @@ public class SempreQueryController {
 				relevantTerms.add(lemmatizedTokens.get(i));
 			}
 		}
-		// System.out.println(lemmatizedTokens);
-		// System.out.println(posTags);
-		// System.out.println(relevantTerms);
 		return relevantTerms;
 	}
 
