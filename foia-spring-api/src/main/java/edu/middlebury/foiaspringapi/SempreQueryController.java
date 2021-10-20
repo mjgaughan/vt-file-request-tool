@@ -20,13 +20,12 @@ import java.nio.charset.StandardCharsets;
 public class SempreQueryController {
 
 	@GetMapping("/sempre")
-	public String query(@RequestParam(value = "q", defaultValue = "") String query) throws IOException {
+	public ArrayList<String> query(@RequestParam(value = "q", defaultValue = "") String query) throws IOException {
 		String url = "http://localhost:8400/sempre?q=";
 		Document doc = Jsoup.connect(url + query).get();
 		Element pre = doc.select("pre").first();
 		String returnValue = pre.text();
-		parsingResults(returnValue);
-		return returnValue;
+		return parsingResults(returnValue);
 	}
 
 	public ArrayList<String> parsingResults(String returnValue) {
@@ -37,11 +36,11 @@ public class SempreQueryController {
 		Boolean isTags = false;
 		String previousWord = "";
 		for (String word : returnValueArray) {
-			// System.out.println(word);
-			// System.out.println("---");
+
 			if (isTokens) {
 				if (word.contains("]")) {
 					isTokens = false;
+					// word = word[];
 				}
 				lemmatizedTokens.add(word);
 			} else if (isTags) {
@@ -64,10 +63,10 @@ public class SempreQueryController {
 				relevantTerms.add(lemmatizedTokens.get(i));
 			}
 		}
-		System.out.println(lemmatizedTokens);
-		System.out.println(posTags);
-		System.out.println(relevantTerms);
-		return posTags;
+		// System.out.println(lemmatizedTokens);
+		// System.out.println(posTags);
+		// System.out.println(relevantTerms);
+		return relevantTerms;
 	}
 
 }
