@@ -21,10 +21,8 @@ import java.io.InputStreamReader;
 public class SolrQueryController {
 
     @GetMapping("/solr")
-    public StringBuffer solr(@RequestParam(value = "q", defaultValue = "*:*") String query) throws IOException {
+    public StringBuffer query(@RequestParam(value = "q", defaultValue = "*:*") String query) throws IOException {
         String url0 = "http://localhost:8983/solr/vtstatefiles/select?q=";
-        // Document doc = Jsoup.connect(url + query).ignoreContentType(true).get();
-        // Element body = doc.select("body").first();
 
         URL url = new URL((url0 + query));
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
@@ -42,7 +40,7 @@ public class SolrQueryController {
             }
             // content.append(inputLine);
         }
-        System.out.println(content);
+        // System.out.println(content);
 
         reader.close();
         http.disconnect();

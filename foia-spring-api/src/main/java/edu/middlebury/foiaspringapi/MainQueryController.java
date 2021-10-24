@@ -25,28 +25,18 @@ import java.net.URL;
 @RestController
 @RequestMapping("/api")
 public class MainQueryController {
-	
-	@Autowired
-	private SempreQueryController sempreController;
-	private SolrQueryController solrController;
+
+    @Autowired
+    private SempreQueryController sempreController;
+    @Autowired
+    private SolrQueryController solrController;
 
     @GetMapping("/main")
-    public String solr(@RequestParam(value = "q", defaultValue = "*:*") String query) throws IOException {
-        /*
-         * need centralized file to rout api calls --- construction, api call goes here,
-         * this queries SEMPRE --- with SEMPRE resutlts, query SOLR --- return SOLR
-         * results
-         */
-    	ArrayList<String> relevantTerms = sempreController.query(query);
-    	String nouns = String.join(" ", relevantTerms);
-    	StringBuffer results = solrController.solr(nouns);
-    	return results.toString();
-
-        // String url = "http://localhost:8983/solr/vtstatefiles/select?q=";
-        // Document doc = Jsoup.connect(url + query).ignoreContentType(true).get();
-        // Element body = doc.select("body").first();
-    	
-        return (query);
+    public String mainQuery(@RequestParam(value = "q", defaultValue = "*:*") String query) throws IOException {
+        ArrayList<String> relevantTerms = sempreController.query(query);
+        String nouns = String.join(" ", relevantTerms);
+        StringBuffer results = solrController.query(nouns);
+        return results.toString();
 
     }
 
