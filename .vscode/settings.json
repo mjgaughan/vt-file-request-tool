@@ -1,3 +1,9 @@
 {
-  "java.configuration.updateBuildConfiguration": "interactive"
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "java.project.referencedLibraries": [
+      "/Users/jakegaughan/Desktop/stanford-corenlp-4.3.1/stanford-corenlp-4.3.1.jar",
+      "/Users/jakegaughan/Desktop/stanford-postagger-full-2020-11-17/stanford-postagger-4.2.0.jar",
+      "/Users/jakegaughan/Desktop/stanford-corenlp-4.3.1/stanford-corenlp-4.3.1-models.jar",
+  ]
 }
+
