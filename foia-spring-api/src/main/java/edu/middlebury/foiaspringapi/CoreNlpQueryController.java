@@ -2,6 +2,7 @@ package edu.middlebury.foiaspringapi;
 
 //import edu.stanford.nlp.coref.data.CorefChain;
 import edu.stanford.nlp.ling.*;
+//import edu.stanford.nlp.hcoref.CorefProperties;
 import edu.stanford.nlp.ie.util.*;
 import edu.stanford.nlp.pipeline.*;
 import edu.stanford.nlp.semgraph.*;
@@ -30,7 +31,9 @@ public class CoreNlpQueryController {
         // need to change the routes in settings.json in order to make sure your machine
         // is set up
         Properties props = new Properties();
-        props.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse, dcoref");
+        props.setProperty("annotators", "tokenize,ssplit,lemma,ner,parse,depparse,coref,kbp,quote");
+        props.setProperty("coref.algorithm", "neural");
+        //props.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse, dcoref");
         // props.setProperty("annotators", "tokenize, ssplit");
         // props.setProperty("annotators",
         // "tokenize,ssplit,pos,lemma,ner,parse,depparse,coref,kbp,quote");
