@@ -1,1 +1,4 @@
-<p>search-bar works!</p>
+<mat-form-field>
+    <input type="text" matInput placeholder="Search" [(ngModel)]="searchInput" name="search">
+</mat-form-field>
+<button mat-button (click)="onSearch(searchInput)" type="button"><i class="fas fa-arrow-right"></i>Search</button>
