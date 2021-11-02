@@ -22,7 +22,7 @@ public class SolrQueryController {
 
     @GetMapping("/solr")
     public StringBuffer query(@RequestParam(value = "q", defaultValue = "*:*") String query) throws IOException {
-        String url0 = "http://localhost:8983/solr/vtstatefiles/select?query=";
+        String url0 = "http://localhost:8983/solr/vtstatefiles/select?q=";
 
         URL url = new URL((url0 + query));
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
