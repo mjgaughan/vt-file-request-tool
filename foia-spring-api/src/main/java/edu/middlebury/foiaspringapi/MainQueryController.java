@@ -32,12 +32,11 @@ public class MainQueryController {
     private SolrQueryController solrController;
 
     @GetMapping("/main")
-    public String mainQuery(@RequestParam(value = "q", defaultValue = "*:*") String query) throws IOException {
+    public StringBuffer mainQuery(@RequestParam(value = "q", defaultValue = "*:*") String query) throws IOException {
         ArrayList<String> relevantTerms = sempreController.query(query);
-        String nouns = String.join(" ", relevantTerms);
+        String nouns = String.join("+", relevantTerms);
         StringBuffer results = solrController.query(nouns);
-        return results.toString();
-
+        return results;
     }
 
 }
