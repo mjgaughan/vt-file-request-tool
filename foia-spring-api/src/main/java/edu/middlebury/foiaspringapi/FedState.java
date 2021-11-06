@@ -20,11 +20,27 @@ import java.io.InputStreamReader;
 @RequestMapping("/api")
 public class FedState {
 
-    // true if fed, false if state
-    public boolean decision(String query) {
-        if ((query.contains("interstate")) || (query.contains("route 7"))) {
+    // true if fed, false if state; just department of transportations
+    public boolean transportationDecision(String query) {
+        if ((query.contains("interstate")) || (query.contains("route")) || (query.contains("airport"))
+                || (query.contains("train")) || (query.contains("Amtrak"))) {
             return true;
         }
-        return true;
+        return false;
     }
+
+    // TODO: labor departments
+    // VOSHA v. OSHA
+    // unemployment is now just state
+    public boolean laborDecision(String query) {
+        return false;
+    }
+
+    // TODO: law enforcement
+    // --CBP/ICE
+    public boolean leDecision(String query) {
+        return false;
+    }
+
+    //
 }
