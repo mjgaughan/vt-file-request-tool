@@ -9,11 +9,11 @@ export class QueryService {
   private queryUrl: string;
 
   constructor (private http: HttpClient) {
-    this.queryUrl = 'http://localhost:8080/aip/main?q=';
+    this.queryUrl = 'http://localhost:8080/api/main?q=';
   }
 
-  public getLicense(query: string): string {
-    return this.http.get(this.queryUrl.concat(query), {responseType: 'string'}
+  public getLicense(query: string): Observable<ArrayBuffer> {
+    return this.http.get(this.queryUrl.concat(query), {responseType: 'arraybuffer'}
     );
   }
 
