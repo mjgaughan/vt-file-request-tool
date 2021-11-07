@@ -29,16 +29,25 @@ public class FedState {
         return false;
     }
 
-    // TODO: labor departments
+    // labor departments
     // VOSHA v. OSHA
     // unemployment is now just state
     public boolean laborDecision(String query) {
+        // should be very slim list of Fed words, VOSHA covers all private employers,
+        // OSHA only covers fed and Covid things
+        if ((query.contains("federal")) || (query.contains("covid")) || (query.contains("coronavirus"))) {
+            return true;
+        }
         return false;
+
     }
 
-    // TODO: law enforcement
-    // --CBP/ICE
+    // law enforcement
     public boolean leDecision(String query) {
+        if ((query.contains("border")) || (query.contains("immigrant")) || (query.contains("ICE"))
+                || (query.contains("computers")) || (query.contains("cyber")) || (query.contains("financ"))) {
+            return true;
+        }
         return false;
     }
 
