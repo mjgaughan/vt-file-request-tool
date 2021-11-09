@@ -35,7 +35,7 @@ public class MainQueryController {
     public String mainQuery(@RequestParam(value = "q", defaultValue = "*:*") String query) throws IOException {
         ArrayList<String> relevantTerms = sempreController.query(query);
         String nouns = String.join(" ", relevantTerms);
-        StringBuffer results = solrController.query(nouns);
+        String results = solrController.query(nouns);
         return results.toString();
 
     }

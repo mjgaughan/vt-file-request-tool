@@ -9,22 +9,30 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import edu.middlebury.foiaspringapi.FedState;
 
 @RestController
 @RequestMapping("/api")
 public class SolrQueryController {
 
-    @GetMapping("/solr")
-    public StringBuffer query(@RequestParam(value = "q", defaultValue = "*:*") String query) throws IOException {
-        String url0 = "http://localhost:8983/solr/vtstatefiles/select?q=";
+    @Autowired
+    private FedState transportationDecision;
+    @Autowired
+    private FedState leDecision;
+    @Autowired
+    private FedState laborDecision;
 
-        URL url = new URL((url0 + query));
+    @GetMapping("/solr")
+    public String query(@RequestParam(value = "q", defaultValue = "*:*") String query) throws IOException {
+        String url0 = "http://localhost:8983/solr/vtstatefiles/select?q=";
+        String urlQuery = query.replace(" ", "+");
+        URL url = new URL((url0 + urlQuery));
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
         http.setRequestMethod("GET");
         http.setRequestProperty("Accept", "application/json");
@@ -38,15 +46,27 @@ public class SolrQueryController {
             } else if (inputLine.contains("Name")) {
                 content.append(inputLine);
             }
-            // content.append(inputLine);
         }
-        // System.out.println(content);
 
         reader.close();
         http.disconnect();
 
-        return content;
+        String contentString = content.toString();
+        checkFed(contentString, query);
+        return contentString;
 
+    }
+
+    public void checkFed(String solrEntry, String query) {
+        Boolean fed = false;
+        if (solrEntry.contains("Vermont Labor Relations Board") || solrEntry.contains("Vermont Department of Labor")) {
+            fed = FedState.laborDecision(query);
+        } else if ((solrEntry.contains("Vermont Department of Transportation") || solrEntry.contains("VTrans"))) {
+            fed = FedState.transportationDecision(query);
+        } else if ((solrEntry.contains("Department of Public Safety") || solrEntry.contains("Vermont State Police"))) {
+            fed = FedState.leDecision(query);
+        }
+        System.out.println(fed);
     }
 
 }

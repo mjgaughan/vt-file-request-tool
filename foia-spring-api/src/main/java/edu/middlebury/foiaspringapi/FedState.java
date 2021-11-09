@@ -21,7 +21,7 @@ import java.io.InputStreamReader;
 public class FedState {
 
     // true if fed, false if state; just department of transportations
-    public boolean transportationDecision(String query) {
+    public static boolean transportationDecision(String query) {
         if ((query.contains("interstate")) || (query.contains("route")) || (query.contains("airport"))
                 || (query.contains("train")) || (query.contains("Amtrak"))) {
             return true;
@@ -32,7 +32,7 @@ public class FedState {
     // labor departments
     // VOSHA v. OSHA
     // unemployment is now just state
-    public boolean laborDecision(String query) {
+    public static boolean laborDecision(String query) {
         // should be very slim list of Fed words, VOSHA covers all private employers,
         // OSHA only covers fed and Covid things
         if ((query.contains("federal")) || (query.contains("covid")) || (query.contains("coronavirus"))) {
@@ -43,7 +43,7 @@ public class FedState {
     }
 
     // law enforcement
-    public boolean leDecision(String query) {
+    public static boolean leDecision(String query) {
         if ((query.contains("border")) || (query.contains("immigrant")) || (query.contains("ICE"))
                 || (query.contains("computers")) || (query.contains("cyber")) || (query.contains("financ"))) {
             return true;
