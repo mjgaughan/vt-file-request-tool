@@ -36,14 +36,13 @@ public class SolrQueryController {
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
         http.setRequestMethod("GET");
         http.setRequestProperty("Accept", "application/json");
-        // System.out.println(http.getResponseCode() + " " + http.getResponseMessage());
         BufferedReader reader = new BufferedReader(new InputStreamReader(http.getInputStream()));
         String inputLine;
         StringBuffer content = new StringBuffer();
         while ((inputLine = reader.readLine()) != null) {
-            if (inputLine.contains("Contact")) {
+            if (inputLine.contains("Contact") && !inputLine.contains("Bio")) {
                 content.append(inputLine);
-            } else if (inputLine.contains("Name")) {
+            } else if (inputLine.contains("Name") && !inputLine.contains("Bio")) {
                 content.append(inputLine);
             }
         }
@@ -52,21 +51,32 @@ public class SolrQueryController {
         http.disconnect();
 
         String contentString = content.toString();
-        checkFed(contentString, query);
-        return contentString;
+        String fedCheck = checkFed(contentString, query);
+        return contentString + fedCheck;
 
     }
 
-    public void checkFed(String solrEntry, String query) {
+    public String checkFed(String solrEntry, String query) {
         Boolean fed = false;
+        String url = "";
         if (solrEntry.contains("Vermont Labor Relations Board") || solrEntry.contains("Vermont Department of Labor")) {
             fed = FedState.laborDecision(query);
-        } else if ((solrEntry.contains("Vermont Department of Transportation") || solrEntry.contains("VTrans"))) {
+            if (fed) {
+                url = "FEDERAL: https://www.dol.gov/general/foia";
+            }
+        } else if (solrEntry.contains("Vermont Department of Transportation") || solrEntry.contains("VTrans")
+                || solrEntry.contains("Vermont National Guard")) {
             fed = FedState.transportationDecision(query);
+            if (fed) {
+                url = "FEDERAL: https://www.transportation.gov/foia";
+            }
         } else if ((solrEntry.contains("Department of Public Safety") || solrEntry.contains("Vermont State Police"))) {
             fed = FedState.leDecision(query);
+            if (fed) {
+                url = "FEDERAL: https://www.cbp.gov/site-policy-notices/foia; https://forms.fbi.gov/fbi-efoia-request-form";
+            }
         }
-        System.out.println(fed);
+        return url;
     }
 
 }
