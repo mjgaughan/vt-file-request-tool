@@ -56,7 +56,7 @@ public class SolrQueryController {
 
     }
 
-    public String checkFed(String solrEntry, String query) {
+    public String checkFed(String solrEntry, String query) throws IOException {
         Boolean fed = false;
         String url = "";
         if (solrEntry.contains("Vermont Labor Relations Board") || solrEntry.contains("Vermont Department of Labor")) {

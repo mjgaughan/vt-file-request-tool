@@ -19,11 +19,29 @@ import java.io.InputStreamReader;
 @RestController
 @RequestMapping("/api")
 public class FedState {
+    private static String apiUid = "1001";
+    private static String apiToken = "tk324324";
 
     // true if fed, false if state; just department of transportations
-    public static boolean transportationDecision(String query) {
+    public static boolean transportationDecision(String query) throws IOException {
+        URL url = new URL(("https://www.stands4.com/services/v2/syno.php?uid=" + apiUid + "&tokenid=" + apiToken
+                + "&word=interstate&format=json"));
+        HttpURLConnection http = (HttpURLConnection) url.openConnection();
+        http.setRequestMethod("GET");
+        http.setRequestProperty("Accept", "application/json");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(http.getInputStream()));
+        String inputLine;
+        String content;
+        while ((inputLine = reader.readLine()) != null) {
+            System.out.println(inputLine);
+            // if(inputLine.contains("synonyms")){
+            // content.append(inputLine)
+            // }
+        }
+        content = "synonyms: interstate, highway, road, ateriel road";
+
         if ((query.contains("interstate")) || (query.contains("route")) || (query.contains("airport"))
-                || (query.contains("train")) || (query.contains("Amtrak"))) {
+                || (query.contains("train")) || (query.contains("Amtrak") || (query.contains("rail")))) {
             return true;
         }
         return false;
@@ -43,7 +61,25 @@ public class FedState {
     }
 
     // law enforcement
-    public static boolean leDecision(String query) {
+    public static boolean leDecision(String query) throws IOException {
+        // URL url = new
+        // URL(("https://www.stands4.com/services/v2/syno.php?uid=1001&tokenid=tk324324&word=consistent&format=json"));
+        // HttpURLConnection http = (HttpURLConnection) url.openConnection();
+        URL url = new URL(("https://www.stands4.com/services/v2/syno.php?uid=" + apiUid + "&tokenid=" + apiToken
+                + "&word=immigrant&format=json"));
+        HttpURLConnection http = (HttpURLConnection) url.openConnection();
+        http.setRequestMethod("GET");
+        http.setRequestProperty("Accept", "application/json");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(http.getInputStream()));
+        String inputLine;
+        String content;
+        while ((inputLine = reader.readLine()) != null) {
+            System.out.println(inputLine);
+            // if(inputLine.contains("synonyms")){
+            // content.append(inputLine)
+            // }
+        }
+        content = "synonyms: immigrants, border, migrants";
         if ((query.contains("border")) || (query.contains("immigrant")) || (query.contains("ICE"))
                 || (query.contains("computers")) || (query.contains("cyber")) || (query.contains("financ"))) {
             return true;
