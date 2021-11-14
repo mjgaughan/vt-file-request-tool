@@ -5,6 +5,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,11 +21,13 @@ import java.io.InputStreamReader;
 @RequestMapping("/api")
 public class SolrQueryController {
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/solr")
     public StringBuffer query(@RequestParam(value = "q", defaultValue = "*:*") String query) throws IOException {
         String url0 = "http://localhost:8983/solr/vtstatefiles/select?q=";
+        String replaced = query.replace(" ", "+");
 
-        URL url = new URL((url0 + query));
+        URL url = new URL((url0 + replaced));
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
         http.setRequestMethod("GET");
         http.setRequestProperty("Accept", "application/json");
