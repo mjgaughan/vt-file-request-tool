@@ -13,7 +13,7 @@ export class ReturnListComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    //console.log(this.searchContent.apiResults)
+    console.log(this.searchContent.apiResults)
   }
 
 }

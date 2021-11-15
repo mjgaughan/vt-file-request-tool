@@ -23,7 +23,6 @@ export class SearchBarComponent implements OnInit {
   async onSearch(query: string) {
     var replaced = query.replace(" ", "+");
     this.apiResults = await this.apiQuery(replaced);
-    console.log(this.apiResults);
   }
 
   apiQuery(query:string){
@@ -32,6 +31,7 @@ export class SearchBarComponent implements OnInit {
     this.http.get(url + query, {responseType: 'text'}).toPromise().then((res) => {
       searchResults = res;
       this.apiResults = searchResults;
+      //console.log(this.apiResults);
       return searchResults || {};
   });
   }

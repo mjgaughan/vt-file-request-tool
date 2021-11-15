@@ -1,4 +1,11 @@
-<mat-form-field>
-    <input type="text" matInput placeholder="Search" [(ngModel)]="searchInput" name="search">
-</mat-form-field>
-<button mat-button (click)="onSearch(searchInput)" type="button"><i class="fas fa-arrow-right"></i>Search</button>
+<div class="wrapper">
+    <div class="center">
+        <mat-form-field>
+            <input type="text" matInput placeholder="Search" [(ngModel)]="searchInput" name="search" class="search" (keyup.enter)="onSearch(searchInput)">
+            <button mat-button (click)="onSearch(searchInput)" type="button"><i class="fas fa-arrow-right"></i>Search</button>
+        </mat-form-field>
+    </div>
+</div>
+<div style="width:864px;">
+    <p *ngIf="apiResults">{{apiResults}}</p>
+</div>

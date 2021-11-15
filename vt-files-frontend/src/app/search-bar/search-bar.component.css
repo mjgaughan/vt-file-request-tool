@@ -1,0 +1,18 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  min-width: 100px;
+}
+.center {
+  display: flex;
+  justify-content: center;
+}
+.search {
+  border: 1px solid grey;
+  border-radius: 5px;
+  height: 25px;
+  width: 400%;
+  padding: 2px 23px 2px 30px;
+  outline: 0;
+  background-color: #dadada;
+}
