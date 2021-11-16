@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.lang.ProcessBuilder;
 import java.lang.Process;
 import java.net.HttpURLConnection;
@@ -32,10 +33,11 @@ public class MainQueryController {
     private SolrQueryController solrController;
 
     @GetMapping("/main")
-    public StringBuffer mainQuery(@RequestParam(value = "q", defaultValue = "*:*") String query) throws IOException {
+    public Hashtable<String, Hashtable<String, String>> mainQuery(
+            @RequestParam(value = "q", defaultValue = "*:*") String query) throws IOException {
         ArrayList<String> relevantTerms = sempreController.query(query);
         String nouns = String.join("+", relevantTerms);
-        StringBuffer results = solrController.query(nouns);
+        Hashtable<String, Hashtable<String, String>> results = solrController.query(nouns);
         return results;
     }
 
