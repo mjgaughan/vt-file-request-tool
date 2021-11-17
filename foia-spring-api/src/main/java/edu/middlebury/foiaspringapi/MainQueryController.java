@@ -1,5 +1,6 @@
 package edu.middlebury.foiaspringapi;
 
+import org.json.JSONObject;
 //import org.apache.http.client.HttpClient;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.lang.ProcessBuilder;
 import java.lang.Process;
 import java.net.HttpURLConnection;
@@ -32,11 +34,12 @@ public class MainQueryController {
     private SolrQueryController solrController;
 
     @GetMapping("/main")
-    public StringBuffer mainQuery(@RequestParam(value = "q", defaultValue = "*:*") String query) throws IOException {
-        ArrayList<String> relevantTerms = sempreController.query(query);
-        String nouns = String.join("+", relevantTerms);
-        StringBuffer results = solrController.query(nouns);
-        return results;
+    public String mainQuery(@RequestParam(value = "q", defaultValue = "*:*") String query) throws IOException {
+        // ArrayList<String> relevantTerms = sempreController.query(query);
+        // String nouns = String.join("+", relevantTerms);
+        JSONObject results = solrController.query(query);
+        System.out.println(results.toString());
+        return results.toString();
     }
 
 }
