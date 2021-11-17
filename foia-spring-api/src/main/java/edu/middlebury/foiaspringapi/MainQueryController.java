@@ -1,5 +1,6 @@
 package edu.middlebury.foiaspringapi;
 
+import org.json.JSONObject;
 //import org.apache.http.client.HttpClient;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -33,12 +34,12 @@ public class MainQueryController {
     private SolrQueryController solrController;
 
     @GetMapping("/main")
-    public Hashtable<String, Hashtable<String, String>> mainQuery(
-            @RequestParam(value = "q", defaultValue = "*:*") String query) throws IOException {
-        ArrayList<String> relevantTerms = sempreController.query(query);
-        String nouns = String.join("+", relevantTerms);
-        Hashtable<String, Hashtable<String, String>> results = solrController.query(nouns);
-        return results;
+    public String mainQuery(@RequestParam(value = "q", defaultValue = "*:*") String query) throws IOException {
+        // ArrayList<String> relevantTerms = sempreController.query(query);
+        // String nouns = String.join("+", relevantTerms);
+        JSONObject results = solrController.query(query);
+        System.out.println(results.toString());
+        return results.toString();
     }
 
 }
