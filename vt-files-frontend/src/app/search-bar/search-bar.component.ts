@@ -4,6 +4,17 @@ import { MatInputModule } from '@angular/material/input';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 
+interface apiEntry {  
+  bio: String;  
+  email: String;  
+  url: String;  
+  agency: String;  
+  contact: String; 
+  instructions: String; 
+  tags: String;    
+  id: String;  
+}  
+
 @Component({
   selector: 'app-search-bar',
   templateUrl: './search-bar.component.html',
@@ -11,7 +22,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SearchBarComponent implements OnInit {
   searchInput = '';
-  apiResults: any;
+  apiResults: any = [];
 
   constructor(private http: HttpClient) {
    }
@@ -22,17 +33,19 @@ export class SearchBarComponent implements OnInit {
 
   async onSearch(query: string) {
     var replaced = query.replace(" ", "+");
-    this.apiResults = await this.apiQuery(replaced);
+    //var temp = await this.apiQuery(replaced);
+    await this.apiQuery(replaced);
   }
 
   apiQuery(query:string){
-    const url = 'http://localhost:8080/api/solr?q='
+    const url = 'http://localhost:8080/api/main?q='
     var searchResults
     this.http.get(url + query, {responseType: 'text'}).toPromise().then((res) => {
       searchResults = res;
-      this.apiResults = searchResults;
-      //console.log(this.apiResults);
-      return searchResults || {};
+      var temporaryString = JSON.parse(searchResults);
+      this.apiResults.push(temporaryString);
+      console.log(this.apiResults);
+      return temporaryString;
   });
   }
 

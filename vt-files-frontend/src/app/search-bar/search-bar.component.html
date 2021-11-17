@@ -7,5 +7,9 @@
     </div>
 </div>
 <div style="width:864px;">
-    <p *ngIf="apiResults">{{apiResults}}</p>
+    <ul *ngIf="apiResults">
+        <li *ngFor="let result of apiResults">
+           <span>{{result.docs}}</span>
+        </li>
+      </ul>
 </div>
