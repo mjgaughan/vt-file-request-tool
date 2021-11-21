@@ -45,18 +45,26 @@ import org.xml.sax.SAXException;
 public class WordNet {
 
     @Value("${stands4User}")
-    private String stands4User;
+    private String defaultStands4User;
 
     @Value("${stands4Token}")
-    private String stands4Token;
+    private String defaultStands4Token;
 
     @GetMapping("/wordnet")
-    public ArrayList<String> getSynonym(@RequestParam(value = "q", defaultValue = "*:*") String keyword)
-            throws IOException {
+    public ArrayList<String> getSynonym(@RequestParam(value = "q", defaultValue = "*:*") String keyword,
+            String stands4User, String stands4Token) throws IOException {
+        if (stands4User == null) {
+            stands4User = defaultStands4User;
+        }
+        if (stands4Token == null) {
+            stands4Token = defaultStands4Token;
+        }
+
         String url = "https://www.stands4.com/services/v2/syno.php?uid=" + stands4User + "&tokenid=" + stands4Token
                 + "&word=" + keyword + "&format=xml";
         System.out.println(url);
         Document doc = Jsoup.connect(url).get();
+        System.out.println(doc);
         String docString = doc.toString();
         ArrayList<String> synonymString = new ArrayList<String>();
         char[] ch = new char[docString.length()];
@@ -96,7 +104,7 @@ public class WordNet {
             }
             j += 1;
         }
-        // System.out.println(synonymString);
+        System.out.println(synonymString);
         return synonymString;
     }
 }
