@@ -44,7 +44,8 @@ public class MainQueryController {
     public String mainQuery(@RequestParam(value = "q", defaultValue = "*:*") String query) throws IOException {
         // ArrayList<String> relevantTerms = sempreController.query(query);
         // String nouns = String.join(" ", relevantTerms);
-        String results = solrController.query(query, defaultStands4User, defaultStands4Token);
+        JSONObject results = solrController.query(query, defaultStands4User, defaultStands4Token);
+        System.out.println(results);
         return results.toString();
     }
 

@@ -28,22 +28,21 @@ import edu.middlebury.foiaspringapi.FedState;
 @RequestMapping("/api")
 public class SolrQueryController {
 
-
     @Autowired
     private FedState transportationDecision;
     @Autowired
     private FedState leDecision;
     @Autowired
     private FedState laborDecision;
-  
+
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/solr")
-    public String query(@RequestParam(value = "q", defaultValue = "*:*") String query, String stands4User,
+    public JSONObject query(@RequestParam(value = "q", defaultValue = "*:*") String query, String stands4User,
             String stands4Token) throws IOException {
         String url0 = "http://localhost:8983/solr/vtstatefiles/select?q=";
         String urlQuery = query.replace(" ", "+");
         URL url = new URL((url0 + urlQuery));
-
+        StringBuffer content = new StringBuffer();
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
         http.setRequestMethod("GET");
         http.setRequestProperty("Accept", "application/json");
@@ -57,14 +56,16 @@ public class SolrQueryController {
             } else if (inputLine.contains("Name") && !inputLine.contains("Bio")) {
                 content.append(inputLine);
             }
+            responseStrBuilder.append(inputLine);
         }
 
         reader.close();
         http.disconnect();
-
+        JSONObject jsonResponse = new JSONObject(responseStrBuilder.toString());
         String contentString = content.toString();
         String fedCheck = checkFed(contentString, query, stands4User, stands4Token);
-        return contentString + fedCheck;
+        jsonResponse.put("Federal", fedCheck);
+        return jsonResponse;
 
     }
 
@@ -89,6 +90,7 @@ public class SolrQueryController {
         } else if ((solrEntry.contains("Department of Public Safety") || solrEntry.contains("Vermont State Police"))) {
             FedState le = new FedState();
             fed = le.leDecision(query, stands4User, stands4Token);
+            System.out.println(fed);
             if (fed) {
                 url = "FEDERAL: https://www.cbp.gov/site-policy-notices/foia; https://forms.fbi.gov/fbi-efoia-request-form";
             }
