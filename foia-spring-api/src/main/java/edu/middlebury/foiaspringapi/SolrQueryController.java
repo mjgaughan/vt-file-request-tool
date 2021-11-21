@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -20,18 +22,28 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import edu.middlebury.foiaspringapi.FedState;
 
 @RestController
 @RequestMapping("/api")
 public class SolrQueryController {
 
+
+    @Autowired
+    private FedState transportationDecision;
+    @Autowired
+    private FedState leDecision;
+    @Autowired
+    private FedState laborDecision;
+  
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/solr")
-    public JSONObject query(@RequestParam(value = "q", defaultValue = "*:*") String query) throws IOException {
+    public String query(@RequestParam(value = "q", defaultValue = "*:*") String query, String stands4User,
+            String stands4Token) throws IOException {
         String url0 = "http://localhost:8983/solr/vtstatefiles/select?q=";
-        String replaced = query.replace(" ", "+");
+        String urlQuery = query.replace(" ", "+");
+        URL url = new URL((url0 + urlQuery));
 
-        URL url = new URL((url0 + replaced));
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
         http.setRequestMethod("GET");
         http.setRequestProperty("Accept", "application/json");
@@ -39,16 +51,49 @@ public class SolrQueryController {
         StringBuilder responseStrBuilder = new StringBuilder();
         String inputLine;
         while ((inputLine = reader.readLine()) != null) {
-            responseStrBuilder.append(inputLine);
+
+            if (inputLine.contains("Contact") && !inputLine.contains("Bio")) {
+                content.append(inputLine);
+            } else if (inputLine.contains("Name") && !inputLine.contains("Bio")) {
+                content.append(inputLine);
+            }
         }
-        JSONObject jsonResponse = new JSONObject(responseStrBuilder.toString());
-        // System.out.println(jsonResponse);
 
         reader.close();
         http.disconnect();
 
-        return jsonResponse;
+        String contentString = content.toString();
+        String fedCheck = checkFed(contentString, query, stands4User, stands4Token);
+        return contentString + fedCheck;
 
+    }
+
+    public String checkFed(String solrEntry, String query, String stands4User, String stands4Token) throws IOException {
+        Boolean fed = false;
+        String url = "";
+        if (solrEntry.contains("Vermont Labor Relations Board") || solrEntry.contains("Vermont Department of Labor")) {
+            FedState labor = new FedState();
+            fed = labor.laborDecision(query);
+            if (fed) {
+                url = "FEDERAL: https://www.dol.gov/general/foia";
+            }
+        } else if (solrEntry.contains("Vermont Department of Transportation")
+                || solrEntry.contains("Vermont Agency of Transportation")
+                || solrEntry.contains("Vermont National Guard")
+                || solrEntry.contains("State of Vermont Transportaiton Board")) {
+            FedState transportation = new FedState();
+            fed = transportation.transportationDecision(query, stands4User, stands4Token);
+            if (fed) {
+                url = "FEDERAL: https://www.transportation.gov/foia";
+            }
+        } else if ((solrEntry.contains("Department of Public Safety") || solrEntry.contains("Vermont State Police"))) {
+            FedState le = new FedState();
+            fed = le.leDecision(query, stands4User, stands4Token);
+            if (fed) {
+                url = "FEDERAL: https://www.cbp.gov/site-policy-notices/foia; https://forms.fbi.gov/fbi-efoia-request-form";
+            }
+        }
+        return url;
     }
 
 }
