@@ -3,6 +3,8 @@ package edu.middlebury.foiaspringapi;
 //import org.apache.http.client.HttpClient;
 import org.jsoup.Jsoup;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -56,27 +58,45 @@ public class WordNet {
         System.out.println(url);
         Document doc = Jsoup.connect(url).get();
         String docString = doc.toString();
-        System.out.println(doc);
-        ArrayList<Character> synonymChar = new ArrayList<Character>();
+        ArrayList<String> synonymString = new ArrayList<String>();
         char[] ch = new char[docString.length()];
         for (int i = 0; i < docString.length(); i++) {
             ch[i] = docString.charAt(i);
         }
         int j = 8;
         Boolean synonymBool = false;
+        ArrayList<Character> tempSynonym2 = new ArrayList<Character>();
         while (j < docString.length()) {
-            char[] synonymCheck = { ch[j - 7], ch[j - 6], ch[j - 5], ch[j - 4], ch[j - 3], ch[j - 2], ch[j - 1],
-                    ch[j] };
-            if (synonymCheck.toString() == "synonyms" && !synonymBool) {
+            char[] synonymCheck = { ch[j - 6], ch[j - 5], ch[j - 4], ch[j - 3], ch[j - 2], ch[j - 1], ch[j] };
+            char[] synonymCharCheck = { 's', 'y', 'n', 'o', 'n', 'y', 'm' };
+            if (Arrays.equals(synonymCheck, synonymCharCheck) && !synonymBool) {
                 synonymBool = true;
-            } else if (synonymCheck.toString() == "synonyms" && synonymBool) {
+            } else if (Arrays.equals(synonymCheck, synonymCharCheck) && synonymBool) {
                 synonymBool = false;
             }
             if (synonymBool) {
-                synonymChar.add(ch[j]);
+                if (ch[j] == ',') {
+                    StringBuilder tempSynonym = new StringBuilder(tempSynonym2.size());
+                    for (Character c : tempSynonym2) {
+                        tempSynonym.append(c);
+                    }
+                    String tempString = tempSynonym.toString();
+                    if (!tempString.contains("<")) {
+                        if (tempString.contains(">")) {
+                            tempString = tempString.substring(3);
+                        } else {
+                            tempString = tempString.substring(1);
+                        }
+                        synonymString.add(tempString);
+                    }
+                    tempSynonym2 = new ArrayList<Character>();
+                } else {
+                    tempSynonym2.add(ch[j]);
+                }
             }
+            j += 1;
         }
-        System.out.println(synonymChar);
-        return new ArrayList<String>();
+        // System.out.println(synonymString);
+        return synonymString;
     }
 }
