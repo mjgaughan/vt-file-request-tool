@@ -1,5 +1,6 @@
 package edu.middlebury.foiaspringapi;
 
+import org.json.JSONObject;
 //import org.apache.http.client.HttpClient;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.lang.ProcessBuilder;
 import java.lang.Process;
 import java.net.HttpURLConnection;
@@ -44,7 +46,6 @@ public class MainQueryController {
         // String nouns = String.join(" ", relevantTerms);
         String results = solrController.query(query, defaultStands4User, defaultStands4Token);
         return results.toString();
-
     }
 
 }

@@ -7,14 +7,22 @@ Our project provides a web application that—given an appropriate natural langu
 
 view our website [here]()
 
-### building
-TODO: how can someone build your project, starting from the GitHub clone/download, installing dependencies and compiling.
+# Building
+### Requirements:
+- Java 8
+- wget
+- Solr 8.1
+- SEMPRE 
 
-### usage
-TODO: provide examples on how to use your program
+### Set-up:
+- Clone Git Repository
+TKTK
+
+# Usage
+Once running, navigate to the frontend interface. Query the searchbar for anything pertaining to file requests in Vermont. Use the returned information to file a file request to the right agency.
 
 ### limitations
-TODO: what are some known limitations users should be aware of when running your program?
+Currently, the service cannot differentiate between federal and state agencies.
 
 ### references
 TODO: what are some important resources for those who want to look further (papers that influenced your work + your final report)

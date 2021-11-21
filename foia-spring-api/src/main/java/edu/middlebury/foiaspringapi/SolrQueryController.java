@@ -5,14 +5,21 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import edu.middlebury.foiaspringapi.FedState;
@@ -21,26 +28,30 @@ import edu.middlebury.foiaspringapi.FedState;
 @RequestMapping("/api")
 public class SolrQueryController {
 
+
     @Autowired
     private FedState transportationDecision;
     @Autowired
     private FedState leDecision;
     @Autowired
     private FedState laborDecision;
-
+  
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/solr")
     public String query(@RequestParam(value = "q", defaultValue = "*:*") String query, String stands4User,
             String stands4Token) throws IOException {
         String url0 = "http://localhost:8983/solr/vtstatefiles/select?q=";
         String urlQuery = query.replace(" ", "+");
         URL url = new URL((url0 + urlQuery));
+
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
         http.setRequestMethod("GET");
         http.setRequestProperty("Accept", "application/json");
         BufferedReader reader = new BufferedReader(new InputStreamReader(http.getInputStream()));
+        StringBuilder responseStrBuilder = new StringBuilder();
         String inputLine;
-        StringBuffer content = new StringBuffer();
         while ((inputLine = reader.readLine()) != null) {
+
             if (inputLine.contains("Contact") && !inputLine.contains("Bio")) {
                 content.append(inputLine);
             } else if (inputLine.contains("Name") && !inputLine.contains("Bio")) {
