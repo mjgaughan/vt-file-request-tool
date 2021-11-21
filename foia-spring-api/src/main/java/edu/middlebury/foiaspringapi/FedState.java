@@ -1,10 +1,6 @@
 package edu.middlebury.foiaspringapi;
 
 // import org.apache.http.client.HttpClient;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,7 +57,6 @@ public class FedState {
         WordNet testing = new WordNet();
         for (String noun : queryNouns) {
             ArrayList<String> synonyms = testing.getSynonym(noun, stands4User, stands4Token);
-            System.out.println(synonyms);
             if ((synonyms.contains("interstate")) || (synonyms.contains("route")) || (synonyms.contains("airport"))
                     || (synonyms.contains("train"))
                     || (synonyms.contains("Amtrak") || (synonyms.contains("rail")) || synonyms.contains("plane"))) {
@@ -91,7 +86,6 @@ public class FedState {
     @GetMapping("/fedle")
     public boolean leDecision(@RequestParam(value = "q", defaultValue = "") String query, String stands4User,
             String stands4Token) throws IOException {
-        // System.out.println(query);
         // OpenNLP POS tagging (lines 95-108) helped w/
         // https://www.tutorialkart.com/opennlp/pos-tagger-example-in-apache-opennlp/
         tokenModelIn = new FileInputStream("src/main/resources/en-token.bin");
@@ -121,8 +115,8 @@ public class FedState {
 
         }
         if ((query.contains("borderline")) || (query.contains("immigrant")) || (query.contains("ICE"))
-                || (query.contains("computers")) || (query.contains("cyber")) || (query.contains("financ"))
-                || (query.contains("migrant")) || (query.contains("border")) || query.contains("traficking")) {
+                || (query.contains("computers")) || query.contains("cyber") || (query.contains("financ"))
+                || (query.contains("migrant")) || query.contains("border") || query.contains("traficking")) {
             return true;
         }
         return false;

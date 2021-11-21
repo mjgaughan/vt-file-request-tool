@@ -75,8 +75,9 @@ public class SolrQueryController {
         if (solrEntry.contains("Vermont Labor Relations Board") || solrEntry.contains("Vermont Department of Labor")) {
             FedState labor = new FedState();
             fed = labor.laborDecision(query);
+            System.out.println(fed);
             if (fed) {
-                url = "FEDERAL: https://www.dol.gov/general/foia";
+                url = "https://www.dol.gov/general/foia";
             }
         } else if (solrEntry.contains("Vermont Department of Transportation")
                 || solrEntry.contains("Vermont Agency of Transportation")
@@ -84,15 +85,19 @@ public class SolrQueryController {
                 || solrEntry.contains("State of Vermont Transportaiton Board")) {
             FedState transportation = new FedState();
             fed = transportation.transportationDecision(query, stands4User, stands4Token);
+            System.out.println(fed);
             if (fed) {
-                url = "FEDERAL: https://www.transportation.gov/foia";
+                url = "https://www.transportation.gov/foia";
+            }
+            if (solrEntry.contains("Vermont National Guard")) {
+                url += "; https://www.nationalguard.mil/Resources/FOIA/";
             }
         } else if ((solrEntry.contains("Department of Public Safety") || solrEntry.contains("Vermont State Police"))) {
             FedState le = new FedState();
             fed = le.leDecision(query, stands4User, stands4Token);
             System.out.println(fed);
             if (fed) {
-                url = "FEDERAL: https://www.cbp.gov/site-policy-notices/foia; https://forms.fbi.gov/fbi-efoia-request-form";
+                url = "https://www.cbp.gov/site-policy-notices/foia; https://forms.fbi.gov/fbi-efoia-request-form";
             }
         }
         return url;

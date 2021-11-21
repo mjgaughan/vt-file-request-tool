@@ -7,9 +7,20 @@
     </div>
 </div>
 <div style="width:864px;">
-    <ul *ngIf="apiResults">
-        <li *ngFor="let result of apiResults">
-           <span>{{result.docs}}</span>
-        </li>
-      </ul>
+    <table>
+        <thead>
+            <th> agency </th>
+            <th> contact</th>
+            <th> email </th>
+            <th> instructions </th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let result of apiResults.response.docs">
+                <td>{{result.Name_Of_Agency}}</td>
+                <td>{{result.Name_Of_Contact}}</td>
+                <td>{{result.Contact_Email}}</td>
+                <td>{{result.Special_Instructions}}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>

@@ -22,7 +22,8 @@ interface apiEntry {
 })
 export class SearchBarComponent implements OnInit {
   searchInput = '';
-  apiResults: any = [];
+  apiResults: any;
+
 
   constructor(private http: HttpClient) {
    }
@@ -43,7 +44,7 @@ export class SearchBarComponent implements OnInit {
     this.http.get(url + query, {responseType: 'text'}).toPromise().then((res) => {
       searchResults = res;
       var temporaryString = JSON.parse(searchResults);
-      this.apiResults.push(temporaryString);
+      this.apiResults = temporaryString;
       console.log(this.apiResults);
       return temporaryString;
   });
