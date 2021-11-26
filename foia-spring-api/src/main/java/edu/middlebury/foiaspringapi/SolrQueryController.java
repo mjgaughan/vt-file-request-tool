@@ -74,30 +74,36 @@ public class SolrQueryController {
         String url = "";
         if (solrEntry.contains("Vermont Labor Relations Board") || solrEntry.contains("Vermont Department of Labor")) {
             FedState labor = new FedState();
+            System.out.println("labor");
             fed = labor.laborDecision(query);
             System.out.println(fed);
             if (fed) {
-                url = "https://www.dol.gov/general/foia";
+                url += "https://www.dol.gov/general/foia; ";
             }
-        } else if (solrEntry.contains("Vermont Department of Transportation")
+        }
+        if (solrEntry.contains("Vermont Department of Transportation")
                 || solrEntry.contains("Vermont Agency of Transportation")
                 || solrEntry.contains("Vermont National Guard")
                 || solrEntry.contains("State of Vermont Transportaiton Board")) {
             FedState transportation = new FedState();
+            System.out.println("transportation");
             fed = transportation.transportationDecision(query, stands4User, stands4Token);
             System.out.println(fed);
             if (fed) {
-                url = "https://www.transportation.gov/foia";
+                url += "https://www.transportation.gov/foia; ";
             }
             if (solrEntry.contains("Vermont National Guard")) {
-                url += "; https://www.nationalguard.mil/Resources/FOIA/";
+                url += "; https://www.nationalguard.mil/Resources/FOIA/; ";
             }
-        } else if ((solrEntry.contains("Department of Public Safety") || solrEntry.contains("Vermont State Police"))) {
+        }
+        if ((solrEntry.contains("Department of Public Safety") || solrEntry.contains("Vermont State Police")
+                || solrEntry.contains("Vermont Department for Children and Families"))) {
+            System.out.println("law enforcement");
             FedState le = new FedState();
             fed = le.leDecision(query, stands4User, stands4Token);
             System.out.println(fed);
             if (fed) {
-                url = "https://www.cbp.gov/site-policy-notices/foia; https://forms.fbi.gov/fbi-efoia-request-form";
+                url += "https://www.cbp.gov/site-policy-notices/foia; https://forms.fbi.gov/fbi-efoia-request-form";
             }
         }
         return url;

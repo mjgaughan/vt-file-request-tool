@@ -116,7 +116,7 @@ public class FedState {
         }
         if ((query.contains("borderline")) || (query.contains("immigrant")) || (query.contains("ICE"))
                 || (query.contains("computers")) || query.contains("cyber") || (query.contains("financ"))
-                || (query.contains("migrant")) || query.contains("border") || query.contains("traficking")) {
+                || (query.contains("migrant")) || query.contains("border") || query.contains("trafficking")) {
             return true;
         }
         return false;
