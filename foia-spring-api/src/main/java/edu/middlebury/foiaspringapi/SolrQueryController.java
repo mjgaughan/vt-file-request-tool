@@ -63,22 +63,23 @@ public class SolrQueryController {
         http.disconnect();
         JSONObject jsonResponse = new JSONObject(responseStrBuilder.toString());
         String contentString = content.toString();
-        String fedCheck = checkFed(contentString, query, stands4User, stands4Token);
+        ArrayList<String> fedCheck = checkFed(contentString, query, stands4User, stands4Token);
         jsonResponse.put("Federal", fedCheck);
         return jsonResponse;
 
     }
 
-    public String checkFed(String solrEntry, String query, String stands4User, String stands4Token) throws IOException {
+    public ArrayList<String> checkFed(String solrEntry, String query, String stands4User, String stands4Token)
+            throws IOException {
         Boolean fed = false;
-        String url = "";
+        ArrayList<String> url = new ArrayList<String>();
         if (solrEntry.contains("Vermont Labor Relations Board") || solrEntry.contains("Vermont Department of Labor")) {
             FedState labor = new FedState();
             System.out.println("labor");
             fed = labor.laborDecision(query);
             System.out.println(fed);
             if (fed) {
-                url += "https://www.dol.gov/general/foia; ";
+                url.add("https://www.dol.gov/general/foia");
             }
         }
         if (solrEntry.contains("Vermont Department of Transportation")
@@ -90,10 +91,10 @@ public class SolrQueryController {
             fed = transportation.transportationDecision(query, stands4User, stands4Token);
             System.out.println(fed);
             if (fed) {
-                url += "https://www.transportation.gov/foia; ";
+                url.add("https://www.transportation.gov/foia");
             }
             if (solrEntry.contains("Vermont National Guard")) {
-                url += "; https://www.nationalguard.mil/Resources/FOIA/; ";
+                url.add("; https://www.nationalguard.mil/Resources/FOIA/");
             }
         }
         if ((solrEntry.contains("Department of Public Safety") || solrEntry.contains("Vermont State Police")
@@ -103,7 +104,8 @@ public class SolrQueryController {
             fed = le.leDecision(query, stands4User, stands4Token);
             System.out.println(fed);
             if (fed) {
-                url += "https://www.cbp.gov/site-policy-notices/foia; https://forms.fbi.gov/fbi-efoia-request-form";
+                url.add("https://www.cbp.gov/site-policy-notices/foia");
+                url.add("https://forms.fbi.gov/fbi-efoia-request-form");
             }
         }
         return url;

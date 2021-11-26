@@ -23,6 +23,7 @@ interface apiEntry {
 export class SearchBarComponent implements OnInit {
   searchInput = '';
   apiResults: any;
+  federalResults: any;
 
 
   constructor(private http: HttpClient) {
@@ -33,8 +34,8 @@ export class SearchBarComponent implements OnInit {
   }
 
   async onSearch(query: string) {
+    //this.apiResults = {};
     var replaced = query.replace(" ", "+");
-    //var temp = await this.apiQuery(replaced);
     await this.apiQuery(replaced);
   }
 
@@ -45,7 +46,14 @@ export class SearchBarComponent implements OnInit {
       searchResults = res;
       var temporaryString = JSON.parse(searchResults);
       this.apiResults = temporaryString;
+      if (temporaryString.Federal.length != 0){
+        this.federalResults = temporaryString.Federal;
+        console.log(this.federalResults);
+      } else{
+        this.federalResults.length = 0;
+      }
       console.log(this.apiResults);
+      console.log(this.federalResults);
       return temporaryString;
   });
   }

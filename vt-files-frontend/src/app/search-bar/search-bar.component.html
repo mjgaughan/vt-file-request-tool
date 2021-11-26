@@ -7,20 +7,35 @@
     </div>
 </div>
 <div style="width:864px;">
+    <div *ngIf="federalResults.length > 0" style="background-color: rgb(250, 101, 101);">
+        <h2>The Files You're Looking For May Be In Federal Offices</h2>
+        <h3>Please check the folllowing websites to see if filing a FOIA request would be helpful</h3>
+        <ul>
+            <li *ngFor="let url of federalResults">
+                <a href={{url}} target="_blank">
+                    {{url}}
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div *ngIf="apiResults">
     <table>
-        <thead>
-            <th> agency </th>
-            <th> contact</th>
-            <th> email </th>
-            <th> instructions </th>
+        <thead style="border: 1px solid black; background-color: rgb(0, 255, 149);">
+            <th> State Agency </th>
+            <th> Contact</th>
+            <th> Contact's Email </th>
+            <th> URL </th>
+            <th> Instructions </th>
         </thead>
-        <tbody>
+        <tbody style="border: 1px solid black;">
             <tr *ngFor="let result of apiResults.response.docs">
-                <td>{{result.Name_Of_Agency}}</td>
-                <td>{{result.Name_Of_Contact}}</td>
-                <td>{{result.Contact_Email}}</td>
+                <td><a style="font-weight: bold; font-style: oblique;">{{result.Name_of_Agency}}</a></td>
+                <td>{{result.Name_of_Contact}}</td>
+                <td><a href="mailto:{{result.Contact_Email}}">{{result.Contact_Email}}</a></td>
+                <td> <a href={{result.Contact_URL}} target="_blank">{{result.Contact_URL}}</a></td>
                 <td>{{result.Special_Instructions}}</td>
             </tr>
         </tbody>
     </table>
+</div>
 </div>
