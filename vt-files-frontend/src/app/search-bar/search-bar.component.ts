@@ -23,7 +23,9 @@ interface apiEntry {
 export class SearchBarComponent implements OnInit {
   searchInput = '';
   apiResults: any;
+  //var federalResults: new Array();
   federalResults: any;
+  //federalResults["location"] = 0;
 
 
   constructor(private http: HttpClient) {
@@ -46,14 +48,18 @@ export class SearchBarComponent implements OnInit {
       searchResults = res;
       var temporaryString = JSON.parse(searchResults);
       this.apiResults = temporaryString;
+      //not sure why the bottom logic works but it seems to, could use more testing
       if (temporaryString.Federal.length != 0){
         this.federalResults = temporaryString.Federal;
         console.log(this.federalResults);
-      } else{
+        //console.log(typeof temporaryString.Federal);
+      } else if (this.federalResults != undefined) {
         this.federalResults.length = 0;
+      } else {
+        this.federalResults = temporaryString.Federal;
       }
       console.log(this.apiResults);
-      console.log(this.federalResults);
+      //console.log(this.federalResults);
       return temporaryString;
   });
   }
