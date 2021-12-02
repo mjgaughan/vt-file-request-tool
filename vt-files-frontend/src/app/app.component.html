@@ -2,8 +2,8 @@
 <style>
   h1 {text-align: center;}
   p {text-align: center;}
-  div {text-align: center; position: fixed;} 
   ul {text-align: center;}
+  app-search-bar {text-align: center;}
 </style>
 
 <br>
@@ -11,7 +11,17 @@
 <br>
 <br>
 <h1>{{title}}</h1>
-<div style="text-align:center; position: relative;">
+<div style="display: flex; justify-content: center;">
+  <div style="width: 600px; text-align: center; justify-content: center;">
+    <p>This website is built to help Vermonters identify where information they might want to know would be held in State of Vermont agenices.
+    Under the <a href="https://legislature.vermont.gov/statutes/chapter/01/005">Vermont Public Records Law</a> and the <a href="https://www.foia.gov/">Freedom of Information Act</a>, any Vermonter can legally request public files from any local, state, or federal agency.
+    In order to use the website, just ask the below search bar any question or query about Vermont the same way you would Google. The website will provide the relevant Vermont state agency for you to request files from.</p>
+    <br>
+    <p>This project's source code can be found <a href="https://github.com/mjgaughan/vt-file-request-tool">here</a>.</p>
+  </div>
+</div>
+<br>
+<div style="display: flex; justify-content: center;">
   <app-search-bar></app-search-bar>
 </div>
 <br>
