@@ -42,7 +42,7 @@ export class SearchBarComponent implements OnInit {
   }
 
   apiQuery(query:string){
-    const url = 'http://localhost:8080/api/main?q='
+    const url = 'http://40.71.97.215:8080/api/main?q='
     var searchResults
     this.http.get(url + query, {responseType: 'text'}).toPromise().then((res) => {
       searchResults = res;

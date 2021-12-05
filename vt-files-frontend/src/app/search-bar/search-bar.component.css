@@ -1,7 +1,13 @@
-.wrapper {
-  position: relative;
+.parent {
   display: flex;
-  min-width: 100px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .center {
   display: flex;
@@ -11,8 +17,15 @@
   border: 1px solid grey;
   border-radius: 5px;
   height: 25px;
-  width: 400%;
-  padding: 2px 23px 2px 30px;
+  width: 100%;
   outline: 0;
   background-color: #dadada;
+}
+.column-left {
+  float: left;
+  width: 33.33%;
+}
+.column-right {
+  float: left;
+  width: 66.66%;
 }

@@ -9,7 +9,8 @@ export class QueryService {
   private queryUrl: string;
 
   constructor (private http: HttpClient) {
-    this.queryUrl = 'http://localhost:8080/api/main?q=';
+    //this.queryUrl = 'http://localhost:8080/api/main?q=';
+    this.queryUrl = 'http://40.71.97.215:8080/api/main?q=';
   }
 
   public getLicense(query: string): Observable<ArrayBuffer> {
