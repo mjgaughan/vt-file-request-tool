@@ -1,7 +1,7 @@
-## An Algorithmic Assist for Transparency: Locating Relevant State Agencies for Vermont File Requests
+## An Algorithmic Assist for Transparency: Streamlining FOIA Requests With a Novel Web Service
 ### Middlebury College, Computer Science CSCI 701 (Fall 2021)
 
-### about
+### About
 
 Our project provides a web application that—given an appropriate natural language query from the user—will identify the correct State of Vermont department for the user to request relevant public information from. We have implemented this using an instance of the Apache Solr search engine, a Spring Boot API framework, a simple AngularJS front end, as well as some near-term matching for demarcating federal or state jurisdiction. 
 
