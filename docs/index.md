@@ -1,4 +1,4 @@
-## An Algorithmic Assist for Transparency: Streamlining FOIA Requests With a Novel Web Service
+# An Algorithmic Assist for Transparency: Streamlining FOIA Requests With a Novel Web Service
 ### Middlebury College, Computer Science CSCI 701 (Fall 2020)
 
 ### About our project
@@ -8,7 +8,7 @@ See the README in our [project repository](https://github.com/mjgaughan/vt-file-
 
 View our website [here](http://40.71.97.215/)!
 
-# Usage
+## Usage
 Once running, navigate to the frontend interface. Query the searchbar for anything pertaining to state agency records in Vermont. Use the returned information to file a record request to the relevant contact source as provided in the returned information.
 
 ### Limitations
